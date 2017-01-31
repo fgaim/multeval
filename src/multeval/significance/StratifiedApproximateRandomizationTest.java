@@ -25,7 +25,8 @@ public class StratifiedApproximateRandomizationTest {
   
   private final boolean debug;
 
-  /** @param suffStats First list corresponds to the metrics, the second
+  /*
+   * First list corresponds to the metrics, the second
    *          dimension is number of data points (i.e. sentences) and the inner
    *          data structure is the sufficient statistics for each metric. 
    *          The number of data points must equal numHyps times numOptRuns */

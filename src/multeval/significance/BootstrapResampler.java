@@ -16,9 +16,12 @@ public class BootstrapResampler {
   private final List<List<SuffStats<?>>> suffStats;
   private int totalDataPoints;
 
-  /** @param suffStats First list corresponds to the metrics, the second
+  /*
+     * @param threads *  @param suffStats First list corresponds to the metrics, the second
    *          dimension is number of data points (i.e. sentences) and the inner
-   *          array is the sufficient statistics for each metric. */
+   *          array is the sufficient statistics for each metric.
+     * @param metrics
+     * @param suffStats */
   public BootstrapResampler(int threads, List<Metric<?>> metrics, List<List<SuffStats<?>>> suffStats) {
 
     Preconditions.checkArgument(metrics.size() > 0, "Must have at least one metric.");
@@ -47,13 +50,11 @@ public class BootstrapResampler {
 	    }
   }
 
-  /** Returns a list whose size corresponds to the number of metrics being used
+  /* Returns a list whose size corresponds to the number of metrics being used
    * for this resampler. Each inner double array contains a n metric values,
    * calculated by applying the metric to the sufficient statistics aggregated
    * from each resampling.
    * 
-   * @param sampleSize Size of each of the n re-sampled groups taken from the
-   *          set of points passed to the contructor.
    * @param numSamples Number of resampled groups to be drawn.
    * @return 
  * @throws InterruptedException */

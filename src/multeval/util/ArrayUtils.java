@@ -4,10 +4,10 @@ import com.google.common.base.*;
 
 public class ArrayUtils {
 
-  /** Add parallel arrays.
-   * 
-   * @param summedStats
-   * @param ds */
+  /* Add parallel arrays.
+   *
+     * @param dest
+     * @param arg */
   public static void plusEquals(float[] dest, float[] arg) {
     Preconditions.checkArgument(dest.length == arg.length, "Arrays not parallel");
     for(int i = 0; i < dest.length; i++) {
@@ -15,10 +15,10 @@ public class ArrayUtils {
     }
   }
 
-  /** Add parallel arrays.
-   * 
-   * @param summedStats
-   * @param ds */
+  /* Add parallel arrays.
+   *
+     * @param dest
+     * @param arg */
   public static void plusEquals(int[] dest, int[] arg) {
     Preconditions.checkArgument(dest.length == arg.length, "Arrays not parallel");
     for(int i = 0; i < dest.length; i++) {
