@@ -35,7 +35,7 @@ public class NbestModule implements Module {
 	@Option(shortName = "v", longName = "verbosity", usage = "Verbosity level", defaultValue = "0")
 	public int verbosity;
 
-	@Option(shortName = "o", longName = "metrics", usage = "Space-delimited list of metrics to use. Any of: bleu, meteor, ter, length", defaultValue = "bleu meteor ter", arrayDelim = " ")
+	@Option(shortName = "o", longName = "metrics", usage = "Space-delimited list of metrics to use. Any of: bleu, ter, length", defaultValue = "bleu ter", arrayDelim = " ")
 	public String[] metricNames;
 
 	@Option(shortName = "N", longName = "nbest", usage = "File containing tokenized, fullform hypotheses, one per line")
@@ -52,7 +52,7 @@ public class NbestModule implements Module {
 
 	@Override
 	public Iterable<Class<?>> getDynamicConfigurables() {
-		return ImmutableList.<Class<?>> of(BLEU.class, multeval.metrics.METEOR.class, TER.class);
+		return ImmutableList.<Class<?>> of(BLEU.class, TER.class);
 	}
 
 	public static class NbestTask {

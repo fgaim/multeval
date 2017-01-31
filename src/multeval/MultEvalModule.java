@@ -15,7 +15,6 @@ import multeval.ResultsManager.Type;
 import multeval.analysis.DiffRanker;
 import multeval.analysis.SentFormatter;
 import multeval.metrics.BLEU;
-import multeval.metrics.METEORStats;
 import multeval.metrics.Metric;
 import multeval.metrics.SuffStats;
 import multeval.metrics.TER;
@@ -41,7 +40,7 @@ public class MultEvalModule implements Module {
 	@Option(shortName = "v", longName = "verbosity", usage = "Verbosity level (Integer: 0-1)", defaultValue = "0")
 	public int verbosity;
 
-	@Option(shortName = "o", longName = "metrics", usage = "Space-delimited list of metrics to use. Any of: bleu, meteor, ter, length", defaultValue = "bleu meteor ter length", arrayDelim = " ")
+	@Option(shortName = "o", longName = "metrics", usage = "Space-delimited list of metrics to use. Any of: bleu, ter, length", defaultValue = "bleu ter length", arrayDelim = " ")
 	public String[] metricNames;
 
 	@Option(shortName = "B", longName = "hyps-baseline", usage = "Space-delimited list of files containing tokenized, fullform hypotheses, one per line", arrayDelim = " ")
@@ -85,7 +84,7 @@ public class MultEvalModule implements Module {
 
 	@Override
 	public Iterable<Class<?>> getDynamicConfigurables() {
-		return ImmutableList.<Class<?>> of(BLEU.class, multeval.metrics.METEOR.class, TER.class);
+		return ImmutableList.<Class<?>> of(BLEU.class, TER.class);
 	}
 
 	@Override
@@ -410,37 +409,6 @@ public class MultEvalModule implements Module {
 
 		for (int iMetric = 0; iMetric < metrics.size(); iMetric++) {
 			Metric<?> metric = metrics.get(iMetric);
-
-			// just do this with METEOR since it's the most forgiving
-			if (metric instanceof multeval.metrics.METEOR) {
-				multeval.metrics.METEOR meteor = (multeval.metrics.METEOR) metric;
-
-				for (int iSys = 0; iSys < data.getNumSystems(); iSys++) {
-					Multiset<String> unmatchedHypWords = HashMultiset.create();
-					Multiset<String> unmatchedRefWords = HashMultiset.create();
-					int medianIdx = results.get(iMetric, iSys, Type.MEDIAN_IDX).intValue();
-
-					List<SuffStats<?>> statsBySent =
-							suffStats.getStats(iMetric, iSys, medianIdx);
-					for (int iHyp = 0; iHyp < data.getNumHyps(); iHyp++) {
-						METEORStats sentStats = (METEORStats) statsBySent.get(iHyp);
-						unmatchedHypWords.addAll(meteor.getUnmatchedHypWords(sentStats));
-						unmatchedRefWords.addAll(meteor.getUnmatchedRefWords(sentStats));
-					}
-
-					// print OOVs for this system
-					List<Entry<String>> unmatchedHypWordsSorted =
-							CollectionUtils.sortByCount(unmatchedHypWords);
-					List<Entry<String>> unmatchedRefWordsSorted =
-							CollectionUtils.sortByCount(unmatchedRefWords);
-
-					int nHead = 10;
-					System.err.println("Top unmatched hypothesis words accoring to METEOR: "
-							+ CollectionUtils.head(unmatchedHypWordsSorted, nHead));
-					System.err.println("Top unmatched reference words accoring to METEOR: "
-							+ CollectionUtils.head(unmatchedRefWordsSorted, nHead));
-				}
-			}
 		}
 	}
 
