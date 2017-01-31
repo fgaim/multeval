@@ -16,7 +16,7 @@ cp -r multeval.sh \
     LICENSE.txt \
     README.md \
     CHANGELOG \
-    multeval-$version.jar \
+    $distDir/multeval.jar \
     example \
     constants \
     $distDir/$dist
