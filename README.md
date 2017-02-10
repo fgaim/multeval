@@ -1,4 +1,36 @@
-Travis CI Build Status: [![Build Status](https://secure.travis-ci.org/jhclark/multeval.png?branch=master)](http://travis-ci.org/jhclark/multeval)
+My Changes
+==========
+Removed support for METEOR, as it could be an annoying dependency when it doesn't support the language being worked on.
+
+I also made changes on the project structure and build system for my own convenience.
+The basic functionality is maintained as the original work, therfore, if you use this work please give credit to the original author.
+
+Build
+=====
+
+Clone this repository, then you can either open the project in Netbeans and build from there (or) if you have `ant` installed build from console as follows:
+
+``` bash
+./build.sh
+```
+
+The compiled binaries will be in the `dist` directory. The original `dist.sh` can also be used to create a distribution.
+
+Example usage (BLEU and TER by default)
+-------------
+``` bash
+cd dist
+./multeval.sh eval --refs example/refs.test2010.lc.tok.en.* --hyps-baseline example/hyps.lc.tok.en.baseline.opt*
+```
+
+(Or) You can directly run the jar file:
+``` bash
+cd dist
+java -jar multeval.jar eval --refs example/refs.test2010.lc.tok.en.* --hyps-baseline example/hyps.lc.tok.en.baseline.opt*
+```
+
+
+---
 
 Overview
 ========
