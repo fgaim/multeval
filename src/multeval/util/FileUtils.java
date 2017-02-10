@@ -6,23 +6,23 @@ import com.google.common.base.*;
 
 public class FileUtils {
 
-  // File must be ASCII or UTF-8!
-  public static String getLastLine(String file) throws IOException {
-    RandomAccessFile ra = new RandomAccessFile(new File(file), "r");
-    long pos = ra.length() - 2; // skip newline at end of file
-    while(((char) ra.readByte()) != '\n' && pos > 0) {
-      pos--;
-      ra.seek(pos);
+    // File must be ASCII or UTF-8!
+    public static String getLastLine(String file) throws IOException {
+        RandomAccessFile ra = new RandomAccessFile(new File(file), "r");
+        long pos = ra.length() - 2; // skip newline at end of file
+        while (((char) ra.readByte()) != '\n' && pos > 0) {
+            pos--;
+            ra.seek(pos);
+        }
+        int len = (int) (ra.length() - ra.getFilePointer());
+        byte[] buf = new byte[len];
+        ra.readFully(buf);
+        String str = new String(buf, Charsets.UTF_8);
+        return str;
     }
-    int len = (int) (ra.length() - ra.getFilePointer());
-    byte[] buf = new byte[len];
-    ra.readFully(buf);
-    String str = new String(buf, Charsets.UTF_8);
-    return str;
-  }
 
-  public static void main(String[] args) throws IOException {
-    System.err.println(getLastLine(args[0]));
-  }
+    public static void main(String[] args) throws IOException {
+        System.err.println(getLastLine(args[0]));
+    }
 
 }
