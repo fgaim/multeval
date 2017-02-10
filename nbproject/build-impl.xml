@@ -980,6 +980,7 @@ is divided into following sections:
     <target depends="init,-do-jar-create-manifest,-do-jar-copy-manifest" if="do.archive+main.class.available" name="-do-jar-set-mainclass">
         <manifest file="${tmp.manifest.file}" mode="update">
             <attribute name="Main-Class" value="${main.class}"/>
+            <attribute name="Class-Path" value="lib/guava-11.0.jar lib/jannopts.jar lib/tercom-0.8.0.jar"/>
         </manifest>
     </target>
     <target depends="init,-do-jar-create-manifest,-do-jar-copy-manifest" if="do.archive+profile.available" name="-do-jar-set-profile">
